@@ -1,0 +1,57 @@
+/*1-Criando o banco de dados Loja de Games XGAMES*/
+
+create database if not exists Loja_XGAMES
+default charset = utf8
+default collate = utf8_general_ci;
+
+
+use Loja_XGAMES;
+
+
+/*2 – Criação das tabelas:*/
+
+CREATE TABLE IF NOT EXISTS console (
+    id_console INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(30) NOT NULL,
+    desenvolvedor VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Jogos (
+    id_Jogos INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome_Jogos VARCHAR(50) NOT NULL,
+    fabricante VARCHAR(50) NOT NULL,
+    fk_console INT NOT NULL,
+    FOREIGN KEY (fk_console)
+        REFERENCES console (id_console)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+/* 3 – Inserção dos dados: */
+ 
+insert into console(nome,desenvolvedor) values
+('Xbox One','Microsoft'),
+('Playstation 4','Sony'),
+('Nintendo Wii','Nintendo');
+
+insert into Jogos(nome_Jogos,fabricante,fk_console) values
+('Battlefield V','Dice','1'),
+('Call of Duty WARZONE','infinity ward','2'),
+('Super Mario', 'Nintendo','3');
+
+
+/* 4 – Consulta: */
+
+CREATE VIEW consultaJogos AS
+    SELECT 
+        *
+    FROM
+        Jogos
+            INNER JOIN
+        console ON console.id_console = Jogos.fk_console;
+
+SELECT 
+    *
+FROM
+    consultaJogos;
+
